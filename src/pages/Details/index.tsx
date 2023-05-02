@@ -24,7 +24,11 @@ const CharacterDetails = (): ReactElement => {
 
   const renderedCharacterDescriptions = (): ReactElement | undefined => {
     if (isLoading) {
-      return <Skeleton paragraph={{ rows: 10 }} active />;
+      return (
+        <div data-testid="details-skeleton">
+          <Skeleton paragraph={{ rows: 10 }} active />
+        </div>
+      );
     }
 
     return character && <CharacterDescription character={character} />;

@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { ICharacter } from "entities/characters";
 import { IFilm } from "entities/films";
 import { ISpecie } from "entities/species";
@@ -11,32 +11,12 @@ import {
   getStarshipsDetailsList,
   getVehiclesDetailsList,
 } from "./thunks";
-
-interface ICharacterDetailsState {
-  character?: ICharacter;
-  isLoading: boolean;
-  error?: string;
-  films: {
-    data?: IFilm[];
-    isLoading: boolean;
-  };
-  species: {
-    data?: ISpecie[];
-    isLoading: boolean;
-  };
-  starships: {
-    data?: IStarship[];
-    isLoading: boolean;
-  };
-  vehicles: {
-    data?: IVehicle[];
-    isLoading: boolean;
-  };
-}
+import { ICharacterDetailsState } from "./interfaces";
 
 const initialState: ICharacterDetailsState = {
   character: undefined,
   isLoading: true,
+  error: undefined,
   films: {
     data: undefined,
     isLoading: true,
@@ -60,7 +40,10 @@ const slice = createSlice({
   initialState,
   reducers: {
     clearCharacterDetails: () => initialState,
-    editLocalCharacterDetails: (state, { payload }) => {
+    editLocalCharacterDetails: (
+      state,
+      { payload }: PayloadAction<ICharacter>
+    ) => {
       state.character = payload;
     },
   },
@@ -71,26 +54,41 @@ const slice = createSlice({
         state.error = message;
       }
     );
-    builder.addCase(getCharacterDetails.fulfilled, (state, { payload }) => {
-      state.character = payload;
-      state.isLoading = false;
-    });
-    builder.addCase(getFilmsDetailsList.fulfilled, (state, { payload }) => {
-      state.films.data = payload;
-      state.films.isLoading = false;
-    });
-    builder.addCase(getSpeciesDetailsList.fulfilled, (state, { payload }) => {
-      state.species.data = payload;
-      state.species.isLoading = false;
-    });
-    builder.addCase(getStarshipsDetailsList.fulfilled, (state, { payload }) => {
-      state.starships.data = payload;
-      state.starships.isLoading = false;
-    });
-    builder.addCase(getVehiclesDetailsList.fulfilled, (state, { payload }) => {
-      state.vehicles.data = payload;
-      state.vehicles.isLoading = false;
-    });
+    builder.addCase(
+      getCharacterDetails.fulfilled,
+      (state, { payload }: PayloadAction<ICharacter>) => {
+        state.character = payload;
+        state.isLoading = false;
+      }
+    );
+    builder.addCase(
+      getFilmsDetailsList.fulfilled,
+      (state, { payload }: PayloadAction<IFilm[]>) => {
+        state.films.data = payload;
+        state.films.isLoading = false;
+      }
+    );
+    builder.addCase(
+      getSpeciesDetailsList.fulfilled,
+      (state, { payload }: PayloadAction<ISpecie[]>) => {
+        state.species.data = payload;
+        state.species.isLoading = false;
+      }
+    );
+    builder.addCase(
+      getStarshipsDetailsList.fulfilled,
+      (state, { payload }: PayloadAction<IStarship[]>) => {
+        state.starships.data = payload;
+        state.starships.isLoading = false;
+      }
+    );
+    builder.addCase(
+      getVehiclesDetailsList.fulfilled,
+      (state, { payload }: PayloadAction<IVehicle[]>) => {
+        state.vehicles.data = payload;
+        state.vehicles.isLoading = false;
+      }
+    );
   },
 });
 

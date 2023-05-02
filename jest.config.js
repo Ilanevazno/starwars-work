@@ -2,10 +2,11 @@
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "jsdom",
-  transformIgnorePatterns: [`node_modules`],
+  transformIgnorePatterns: ["/node_modules/(?!(axios)/).*"],
   coverageDirectory: "coverage",
   collectCoverage: false,
   moduleDirectories: ["node_modules", "src"],
+  setupFiles: ["./src/config/test-config/globalSetups.ts"],
   testMatch: ["**/?(*.)+(spec|test).[jt]s?(x)"],
   globals: {
     "ts-jest": {

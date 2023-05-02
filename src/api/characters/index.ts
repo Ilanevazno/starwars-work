@@ -1,13 +1,13 @@
 import axiosInstance from "config/axios";
 import { ICharacter } from "entities/characters";
 import { insertIfObj } from "utils/insertIfObj";
-import { ICharactersRequest, IChracterResponse } from "./interfaces";
+import { ICharactersRequest, ICharacterResponse } from "./interfaces";
 
 export const fetchCharacters = async ({
   filters,
   page,
-}: ICharactersRequest): Promise<IChracterResponse> => {
-  const response = await axiosInstance.get<IChracterResponse>("people", {
+}: ICharactersRequest): Promise<ICharacterResponse> => {
+  const response = await axiosInstance.get<ICharacterResponse>("people", {
     params: {
       ...insertIfObj(Boolean(page), {
         page,

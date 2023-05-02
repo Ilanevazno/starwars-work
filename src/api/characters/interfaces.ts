@@ -9,6 +9,6 @@ export interface ICharactersRequest extends IPaginationRequest {
   filters?: ICharactersFilters;
 }
 
-export interface IChracterResponse extends IPagination {
+export interface ICharacterResponse extends IPagination {
   results: ICharacter[];
 }

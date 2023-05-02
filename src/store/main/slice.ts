@@ -1,18 +1,12 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "api";
-import { ICharactersRequest } from "api/characters/interfaces";
-import { IPagination } from "api/interfaces";
-import { ICharacter } from "entities/characters";
-import { ErrorMessages } from "./interfaces";
+import {
+  ICharactersRequest,
+  ICharacterResponse,
+} from "api/characters/interfaces";
+import { ErrorMessages, MainPageState } from "./interfaces";
 
-interface LandingPageState {
-  characters?: ICharacter[];
-  isLoading: boolean;
-  paginationMeta?: IPagination;
-  error?: string;
-}
-
-const initialState: LandingPageState = {
+const initialState: MainPageState = {
   characters: undefined,
   paginationMeta: undefined,
   isLoading: true,
@@ -44,18 +38,21 @@ const slice = createSlice({
       state.isLoading = false;
     });
 
-    builder.addCase(getCharacters.fulfilled, (state, { payload }) => {
-      const { count, next, previous } = payload;
+    builder.addCase(
+      getCharacters.fulfilled,
+      (state, { payload }: PayloadAction<ICharacterResponse>) => {
+        const { count, next, previous } = payload;
 
-      state.characters = payload.results;
+        state.characters = payload.results;
 
-      state.paginationMeta = {
-        count,
-        next,
-        previous,
-      };
-      state.isLoading = false;
-    });
+        state.paginationMeta = {
+          count,
+          next,
+          previous,
+        };
+        state.isLoading = false;
+      }
+    );
   },
 });
 
