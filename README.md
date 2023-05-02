@@ -1,6 +1,15 @@
-# starwars-work
+# starwars app
 
 The application starts without additional complications.
-1. yarn to install dependencies
-2. yarn start to launch the app
-3. yarn tests to run testing using a jest
+
+To install dependencies use next command:
+
+`1. yarn`
+
+After successful installation you can run app by next command:
+
+`2. yarn start`
+
+And to run testing using a jest you can use:
+
+`3. yarn tests `
