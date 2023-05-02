@@ -11,8 +11,6 @@ import { ICharacterDetailsState } from "./characterDetails/interfaces";
 import { MainPageState } from "./main/interfaces";
 import { ToolkitStore } from "@reduxjs/toolkit/dist/configureStore";
 import { getCharacterDetails } from "./characterDetails/thunks";
-import { ICharacter } from "entities/characters";
-import { AppDispatch } from "store";
 
 const mockNetworkResponse = (endpoint: string, response: any, status = 200) => {
   const mock = new MockAdapter(axiosInstance);
@@ -38,7 +36,7 @@ describe("Main redux state tests", () => {
   test("Should be able to fetch peoples list", async () => {
     mockNetworkResponse("people", peoples);
 
-    const result = await store.dispatch(getCharacters());
+    const result = await store.dispatch<any>(getCharacters());
 
     expect(result.type).toBe("GET_CHARACTERS/fulfilled");
     expect(result.payload.results.length).toBe(1);
@@ -51,7 +49,7 @@ describe("Main redux state tests", () => {
   test("Catch 404 error from server", async () => {
     mockNetworkResponse("people", {}, 404);
 
-    const result = await store.dispatch(getCharacters());
+    const result = await store.dispatch<any>(getCharacters());
 
     expect(result.type).toBe("GET_CHARACTERS/rejected");
 
@@ -80,7 +78,7 @@ describe("character details redux state tests", () => {
   test("Loading character details", async () => {
     mockNetworkResponse("people/1", character);
 
-    const result = await store.dispatch(getCharacterDetails("1"));
+    const result = await store.dispatch<any>(getCharacterDetails("1"));
     const state = store.getState().characterDetails;
 
     expect(result.type).toBe("GET_CHARACTER_DETAILS/fulfilled");
@@ -94,7 +92,7 @@ describe("character details redux state tests", () => {
       404
     );
 
-    const result = await store.dispatch(getCharacterDetails("1"));
+    const result = await store.dispatch<any>(getCharacterDetails("1"));
     const { error } = store.getState().characterDetails;
 
     expect(result.type).toBe("GET_CHARACTER_DETAILS/rejected");
@@ -104,7 +102,7 @@ describe("character details redux state tests", () => {
   test("lock editing character data", async () => {
     mockNetworkResponse("people/1", character);
 
-    await store.dispatch(getCharacterDetails("1"));
+    await store.dispatch<any>(getCharacterDetails("1"));
     const state = store.getState().characterDetails;
     expect(state.character?.name).toBe("Luke Skywalker");
 
